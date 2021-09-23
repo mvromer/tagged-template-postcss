@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "tagged-template-postcss-core": [
+        "packages/tagged-template-postcss-core/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

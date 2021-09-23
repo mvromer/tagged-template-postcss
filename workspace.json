@@ -1,6 +1,34 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "tagged-template-postcss-core": {
+      "root": "packages/tagged-template-postcss-core",
+      "sourceRoot": "packages/tagged-template-postcss-core/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "packages/tagged-template-postcss-core/**/*.ts"
+            ]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/tagged-template-postcss-core",
+            "tsConfig": "packages/tagged-template-postcss-core/tsconfig.lib.json",
+            "packageJson": "packages/tagged-template-postcss-core/package.json",
+            "main": "packages/tagged-template-postcss-core/src/index.ts",
+            "assets": ["packages/tagged-template-postcss-core/*.md"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/node"
   }
