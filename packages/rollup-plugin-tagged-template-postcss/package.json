@@ -1,4 +1,11 @@
 {
   "name": "rollup-plugin-tagged-template-postcss",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "description": "Process contents of tagged template literals with PostCSS during Rollup build.",
+  "type": "module",
+  "keywords": [
+    "rollup-plugin"
+  ],
+  "author": "Michael Romer",
+  "license": "MIT"
 }
