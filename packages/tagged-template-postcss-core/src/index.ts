@@ -1,1 +1,3 @@
-export * from './lib/tagged-template-postcss-core';
+export { standardOutputTransform } from './transforms.js';
+
+export type { TaggedTemplatePostcssOptions } from './options.js';

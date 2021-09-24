@@ -1,4 +1,7 @@
 {
   "name": "tagged-template-postcss-core",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "peerDependencies": {
+    "postcss": "^8.2.15"
+  }
 }

@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": ["**/*.spec.ts"],
   "include": ["**/*.ts"]
