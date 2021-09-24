@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "rollup-plugin-tagged-template-postcss": [
+        "packages/rollup-plugin-tagged-template-postcss/src/index.ts"
+      ],
       "tagged-template-postcss-core": [
         "packages/tagged-template-postcss-core/src/index.ts"
       ]

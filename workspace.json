@@ -1,6 +1,33 @@
 {
   "version": 2,
   "projects": {
+    "rollup-plugin-tagged-template-postcss": {
+      "root": "packages/rollup-plugin-tagged-template-postcss",
+      "sourceRoot": "packages/rollup-plugin-tagged-template-postcss/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "packages/rollup-plugin-tagged-template-postcss/**/*.ts"
+            ]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/rollup-plugin-tagged-template-postcss",
+            "tsConfig": "packages/rollup-plugin-tagged-template-postcss/tsconfig.lib.json",
+            "packageJson": "packages/rollup-plugin-tagged-template-postcss/package.json",
+            "main": "packages/rollup-plugin-tagged-template-postcss/src/index.ts",
+            "assets": ["packages/rollup-plugin-tagged-template-postcss/*.md"]
+          }
+        }
+      }
+    },
     "tagged-template-postcss-core": {
       "root": "packages/tagged-template-postcss-core",
       "sourceRoot": "packages/tagged-template-postcss-core/src",

@@ -13,6 +13,9 @@
     }
   },
   "projects": {
+    "rollup-plugin-tagged-template-postcss": {
+      "tags": []
+    },
     "tagged-template-postcss-core": {
       "tags": []
     }
