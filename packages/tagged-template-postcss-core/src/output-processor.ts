@@ -1,14 +1,14 @@
 import { pipe } from '@arrows/composition';
 
 /**
- * Transform function applied to the output of PostCSS.
+ * Additional transformation applied to the output of PostCSS.
  *
  * @param transformedLiteralContents Contents of a tagged template literal that has
- * already been transformed by PostCSS and any prior transform functions.
+ * already been transformed by PostCSS and any prior output processors.
  *
- * @returns The template literal contents with this function's transformations applied.
+ * @returns The template literal contents with this processor's transformations applied.
  */
-export type TransformFunc = (transformedLiteralContents: string) => string;
+export type OutputProcessor = (transformedLiteralContents: string) => string;
 
 /**
  * Convert each occurrence of \ with \\.
@@ -25,7 +25,7 @@ const escapeBacktick = (contents: string) => contents.replace(/`/g, '\\`');
  */
 const escapePlaceholderOpening = (contents: string) => contents.replace(/\$\{/g, '\\${');
 
-export const standardOutputTransform = pipe(
+export const standardOutputProcessor = pipe(
   // Backslash escaping comes first so we don't we don't inadvertently escape any escape sequences
   // subsequent functions in the pipeline add to the transformed output.
   escapeBackslash,

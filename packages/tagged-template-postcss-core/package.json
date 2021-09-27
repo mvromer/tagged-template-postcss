@@ -1,6 +1,9 @@
 {
   "name": "tagged-template-postcss-core",
   "version": "0.0.1",
+  "author": "Michael Romer",
+  "type": "module",
+  "license": "MIT",
   "peerDependencies": {
     "postcss": "^8.2.15"
   }

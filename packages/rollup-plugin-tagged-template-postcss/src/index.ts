@@ -1,1 +1,2 @@
-export * from './lib/rollup-plugin-tagged-template-postcss';
+export { taggedTemplatePostcss as default } from './plugin';
+export type { RollupTaggedTemplatePostcssOptions } from './plugin';
