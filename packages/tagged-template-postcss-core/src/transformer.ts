@@ -1,10 +1,9 @@
 import { railAsync } from '@arrows/composition';
 import TraceError from 'trace-error';
 
-import type MagicString from 'magic-string';
 import type { SourceMap } from 'magic-string';
 
-import { processTaggedTemplates, resolvePostcssConfig } from './postcss.js';
+import { processTaggedTemplates } from './postcss.js';
 
 import type { TaggedTemplatePostcssOptions } from './options.js';
 import type { ProcessResult } from './postcss.js';
@@ -38,7 +37,23 @@ type TransformerResult = string | {
   sourceMap: SourceMap;
 }
 
-type Transformer = (code: string, id: string, options?: TransformerOptions) => Promise<TransformerResult>;
+/**
+ * Transforms a string of source code by finding all tagged template expressions and processing
+ * their template literal contents with PostCSS. The output of PostCSS can optionally be processed
+ * by one or more output processors. The original template literal contents are then replaced with
+ * the transformed contents.
+ *
+ * @param code Source code string to transform.
+ *
+ * @param id An ID string associated with the given source code string. This is typically something
+ * like the path to the module whose source code is passed to the {@link code} parameter.
+ *
+ * @param transformerOptions Additional options used to configure the behavior of the
+ * {@link Transformer}.
+ *
+ * @returns A promise resolving to the result of the {@link Transformer}.
+ */
+type Transformer = (code: string, id: string, transformerOptions?: TransformerOptions) => Promise<TransformerResult>;
 
 /**
  * Return value of the call to {@link railAsync} used to build the transformer pipeline that
@@ -52,9 +67,25 @@ type Transformer = (code: string, id: string, options?: TransformerOptions) => P
  */
 type TransformerPipelineFunc = (code: string) => Promise<ProcessResult | Error>;
 
+/**
+ * Builds a {@link Transformer} that can take a string of source code, extract its tagged template
+ * expressions whose tag functions have names matching the list of tag names in the given
+ * {@link options}, processes their template literal contents through PostCSS and any configured
+ * output processors, and then replaces the original template literal contents with the transformed
+ * contents. The resulting transformer can be configured with a callback that the caller can use to
+ * process any PostCSS dependencies found during the transformation process.
+ *
+ * @param options Options used to configure the core transformation pipeline.
+ *
+ * @param findTaggedTemplates Callback used to find all tagged template expressions in a source code
+ * string and return them as a list of {@link TaggedTemplateSearchResult} objects.
+ *
+ * @returns A promise resolving to a {@link Transformer} that can be called to transform a string of
+ * source code using a transformation pipeline configured from the given {@link options}.
+ */
 export async function buildTransformer(
-  findTaggedTemplates: FindTaggedTemplatesFunc,
-  options: TaggedTemplatePostcssOptions
+  options: TaggedTemplatePostcssOptions,
+  findTaggedTemplates: FindTaggedTemplatesFunc
 ): Promise<Transformer> {
   return async (code: string, sourceCodeId: string, transformerOptions?: TransformerOptions) => {
     const runTransformPipeline: TransformerPipelineFunc = railAsync(

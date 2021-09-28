@@ -96,7 +96,6 @@ export async function processTaggedTemplates(
         pipe.now(postcssResult.css, ...outputProcessors) as string
       );
 
-      // XXX: Add dependencies, but need to clearly mark dir vs. file deps.
       dependencies.push(...postcssResult.messages.filter(isPostcssDependency));
     }
   }

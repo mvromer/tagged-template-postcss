@@ -35,7 +35,11 @@ export const taggedTemplatePostcss: PluginImpl<RollupTaggedTemplatePostcssOption
         return;
       }
 
-      const transformCode = await buildTransformer(buildFindTaggedTemplates(this.parse), options);
+      const transformCode = await buildTransformer(
+        options,
+        buildFindTaggedTemplates(this.parse)
+      );
+
       return await transformCode(code, id, {
         generateSourceMap: options.sourceMap
       });
