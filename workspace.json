@@ -54,6 +54,31 @@
           }
         }
       }
+    },
+    "ts-tagged-template-postcss": {
+      "root": "packages/ts-tagged-template-postcss",
+      "sourceRoot": "packages/ts-tagged-template-postcss/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["packages/ts-tagged-template-postcss/**/*.ts"]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/ts-tagged-template-postcss",
+            "tsConfig": "packages/ts-tagged-template-postcss/tsconfig.lib.json",
+            "packageJson": "packages/ts-tagged-template-postcss/package.json",
+            "main": "packages/ts-tagged-template-postcss/src/index.ts",
+            "assets": ["packages/ts-tagged-template-postcss/*.md"]
+          }
+        }
+      }
     }
   },
   "cli": {

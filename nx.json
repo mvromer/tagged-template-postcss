@@ -18,6 +18,9 @@
     },
     "tagged-template-postcss-core": {
       "tags": []
+    },
+    "ts-tagged-template-postcss": {
+      "tags": []
     }
   }
 }
