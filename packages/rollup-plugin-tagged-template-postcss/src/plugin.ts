@@ -37,7 +37,22 @@ export const taggedTemplatePostcss: PluginImpl<RollupTaggedTemplatePostcssOption
 
       const transformCode = await buildTransformer(
         options,
-        buildFindTaggedTemplates(this.parse)
+        buildFindTaggedTemplates(this.parse),
+        (postcssDependencies) => {
+          // We're lucky in that Rollup's addWatchFile utility function can take paths to both
+          // files and directories.
+          for (const dependency of postcssDependencies) {
+            if (dependency.type === 'dependency' || dependency.type === 'context-dependency') {
+              // Use index syntax since the PostCSS type declarations don't actually define types
+              // for specific dependency message types. Instead, additional properties are declared
+              // using a string index signature on the Message type.
+              this.addWatchFile(dependency['file']);
+            }
+            else if (dependency.type === 'dir-dependency') {
+              this.addWatchFile(dependency['dir']);
+            }
+          }
+        }
       );
 
       return await transformCode(code, id, {

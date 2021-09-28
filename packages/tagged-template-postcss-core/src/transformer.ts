@@ -2,6 +2,7 @@ import { railAsync } from '@arrows/composition';
 import TraceError from 'trace-error';
 
 import type { SourceMap } from 'magic-string';
+import type { Message } from 'postcss';
 
 import { processTaggedTemplates } from './postcss.js';
 
@@ -56,6 +57,13 @@ type TransformerResult = string | {
 type Transformer = (code: string, id: string, transformerOptions?: TransformerOptions) => Promise<TransformerResult>;
 
 /**
+ * Processes a list of PostCSS dependencies discovered while executing a {@link Transformer}.
+ *
+ * @param dependencies List of PostCSS dependencies found while executing a {@link Transformer}.
+ */
+export type PostcssDependencyHandler = (dependencies: Message[]) => void;
+
+/**
  * Return value of the call to {@link railAsync} used to build the transformer pipeline that
  * processes contents of tagged template literal expressions in the given source code string with
  * PostCSS.
@@ -80,12 +88,16 @@ type TransformerPipelineFunc = (code: string) => Promise<ProcessResult | Error>;
  * @param findTaggedTemplates Callback used to find all tagged template expressions in a source code
  * string and return them as a list of {@link TaggedTemplateSearchResult} objects.
  *
+ * @param handlePostcssDependencies Optional callback used to process any PostCSS dependencies found
+ * when the returned {@link Transformer} executes.
+ *
  * @returns A promise resolving to a {@link Transformer} that can be called to transform a string of
  * source code using a transformation pipeline configured from the given {@link options}.
  */
 export async function buildTransformer(
   options: TaggedTemplatePostcssOptions,
-  findTaggedTemplates: FindTaggedTemplatesFunc
+  findTaggedTemplates: FindTaggedTemplatesFunc,
+  handlePostcssDependencies?: PostcssDependencyHandler
 ): Promise<Transformer> {
   return async (code: string, sourceCodeId: string, transformerOptions?: TransformerOptions) => {
     const runTransformPipeline: TransformerPipelineFunc = railAsync(
@@ -101,8 +113,7 @@ export async function buildTransformer(
     }
 
     const [modifiedCode, dependencies] = processResult;
-
-    // XXX: Process PostCSS dependencies via callback.
+    handlePostcssDependencies?.(dependencies);
 
     if (transformerOptions?.generateSourceMap) {
       return {
